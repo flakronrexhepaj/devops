@@ -1,0 +1,35 @@
+- hosts: appserver
+  become: true
+  become_user: root
+  remote_user: ubuntu
+  tasks:
+  - name: "installing rsync"
+    apt: >
+      pkg={{ item }}
+      state=latest
+      update_cache=yes
+      cache_valid_time=3600
+    with_items:
+    - rsync
+  - name: check files for any changes
+    synchronize:
+      delete: yes
+      recursive: yes
+      src: ../docker/
+      dest: /home/ubuntu/deployments/
+    register: docker_files
+  - name: stop containers if containers config files have been changed
+    command:
+      chdir: /home/ubuntu/deployments/
+      cmd: docker-compose stop
+    when: docker_files.changed
+  - name: build containers images if containers config files have been changed
+    command:
+      chdir: /home/ubuntu/deployments/
+      cmd: docker-compose build --no-cache
+    when: docker_files.changed
+  - name: start containers if containers config files have been changed
+    command:
+      chdir: /home/ubuntu/deployments/
+      cmd: docker-compose up -d
+    when: docker_files.changed
