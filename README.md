@@ -98,10 +98,10 @@ This application will create the following resources:
 
 To run the application, simply execute the following command:
 ```shell
-./cloud-automation.sh web dev 1 t2.nano
+./cloud-automation.sh web dev 1 t2.nano flre
 ```
 
-**Note**: `web` is for application variable - default: `app`, `dev` is for environment variables - default: `dev`, `1` is for instance count - default: `1`, `t2.nano` is for EC2 instance type - default: `t2.nano`. All variables can be found in `terraform-aws/variables.tf`. Please make sure that you use an instance type that has 4 or 8GB memory space, otherwise, docker containers may not be working properly.
+**Note**: `web` is for application variable - default: `app`, `dev` is for environment variables - default: `dev`, `1` is for instance count - default: `1`, `t2.nano` is for EC2 instance type - default: `t2.nano` and `flre` is for name variable - default: `flre`. All variables can be found in `terraform-aws/variables.tf`. Please make sure that you use an instance type that has 4 or 8GB memory space, otherwise, docker containers may not be working properly.
 
 ### Tools Used:
 
@@ -113,7 +113,13 @@ Docker is used to create images with all neccessary packages and configurations.
 
 If you want to use Dockerfile to run application, follow below steps. Dockerfile use `ubuntu` as base image.
 
-1. In root directory, build docker image: `docker build .`
-2. Run docker image: `docker run -d [IMAGE_ID]`
-3. Go inside docker container: `docker exec -it [CONTAINER_ID] bash`
-4. Clone repo inside container.
+1.  In root directory, build docker image: `docker build .`
+2.  Run docker image: `docker run -d [IMAGE_ID]`
+3.  Go inside docker container: `docker exec -it [CONTAINER_ID] bash`
+4.  Clone repo inside container and change directory to `REPOSITORY_NAME`: `git clone https://github.com/flakronrexhepaj/devops && cd devops`
+5.  Export `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` as environment variables
+6.  Configure aws setup: `aws configure`
+7.  Generate public key for SSH: `ssh-keygen`
+8.  Update `public_key` variable in `terraform-aws/variables.tf` with your generated ssh public key.
+9.  Run application: `./cloud-automation.sh web dev 1 t2.large flre`
+10. Re-run command 9 everytime there is a change in resources, docker, nginx, tomcat config files or webapps! 

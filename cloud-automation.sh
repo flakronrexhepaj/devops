@@ -7,13 +7,14 @@ APP=$1
 ACC=$2
 SERV=$3
 SIZE=$4
+NAME=$5
 
 usage() {
-  if [ -z "${APP}" ] || [ -z "${ACC}" ] || [ -z "${SERV}" ] || [ -z "${SIZE}" ]; then
+  if [ -z "${APP}" ] || [ -z "${ACC}" ] || [ -z "${SERV}" ] || [ -z "${SIZE}" ] || [ -z "${NAME}" ]; then
     echo """
-      $1 - $2 - $3 - $4 - $# - $@
-      To run this script you to need to supply 4 arguments:
-      $0 <app> <environment> <num_servers> <server_size>
+      $1 - $2 - $3 - $4 - $5 - $# - $@
+      To run this script you to need to supply 5 arguments:
+      $0 <app> <environment> <num_servers> <server_size> <name>
     """
     exit 1
   else
@@ -45,11 +46,12 @@ runTerraform() {
   -var "application=${APP:-app}" \
   -var "environment=${ACC:-dev}" \
   -var 'instance_count="'${SERV:-1}'"' \
-  -var "instance_type=${SIZE:-t2.nano}"
+  -var "instance_type=${SIZE:-t2.nano}" \
+  -var "name=${NAME:-flre}"
   if [ $? -eq 0 ]; then
     echo "Waiting for AWS resources ...."
     sleep 185
-    INSTANCES_IPS="`aws ec2 describe-instances --filter Name=tag:Name,Values=said-sef-${APP}* --query "Reservations[*].Instances[*].PublicIpAddress" --output text`"
+    INSTANCES_IPS="`aws ec2 describe-instances --filter Name=tag:Name,Values=${NAME}-${APP}* --query "Reservations[*].Instances[*].PublicIpAddress" --output text`"
     echo "#################"
     echo "Instance(s) IP Address"
     echo "${INSTANCES_IPS}"

@@ -17,7 +17,7 @@ ENV PACKER_VERSION=${PACKER_VERSION}
 
 # Install defined applications versions
 RUN apt-get update \
-&& apt-get install -y ansible curl git rsync python3 python3-pip python3-boto unzip \
+&& apt-get install -y ansible curl git vim rsync python3 python3-pip python3-boto unzip \
 && pip3 install --upgrade awscli==${AWSCLI_VERSION} \
 && curl -LO https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip \
 && curl -LO https://releases.hashicorp.com/packer/${PACKER_VERSION}/packer_${PACKER_VERSION}_linux_amd64.zip \
