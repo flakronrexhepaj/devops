@@ -127,6 +127,6 @@ If you want to use Dockerfile to run application, follow below steps. Dockerfile
 
 ### References:
 
-https://dev.to/codebarber/dockerfile-ansible-awscli-packer-terraform-4ppi
-https://github.com/saidsef/aws-terraform-ansible-docker
-https://github.com/ricktbaker/docker-java-tomcat-nginx
+- https://dev.to/codebarber/dockerfile-ansible-awscli-packer-terraform-4ppi
+- https://github.com/saidsef/aws-terraform-ansible-docker
+- https://github.com/ricktbaker/docker-java-tomcat-nginx
