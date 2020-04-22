@@ -123,3 +123,10 @@ If you want to use Dockerfile to run application, follow below steps. Dockerfile
 8.  Update `public_key` variable in `terraform-aws/variables.tf` with your generated ssh public key.
 9.  Run application: `./cloud-automation.sh web dev 1 t2.large flre`
 10. Re-run command 9 everytime there is a change in resources, docker, nginx, tomcat config files or webapps! 
+
+
+### References:
+
+https://dev.to/codebarber/dockerfile-ansible-awscli-packer-terraform-4ppi
+https://github.com/saidsef/aws-terraform-ansible-docker
+https://github.com/ricktbaker/docker-java-tomcat-nginx
